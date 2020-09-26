@@ -5,8 +5,8 @@ from passlib.hash import sha256_crypt
 
 
 app = Flask(__name__)
-app.config[MySQL_HOST] = "localhost"
-
+app.config["MySQL_HOST"] = "localhost"
+app.config["MySQL_USER"] = "root"
 
 @app.route("/")
 def index():
