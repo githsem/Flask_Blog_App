@@ -4,6 +4,7 @@ from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
 #Kullanici Kayit Formu
+class RegisterForm(Form):
 
 
 app = Flask(__name__)
