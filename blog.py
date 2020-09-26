@@ -5,6 +5,10 @@ from passlib.hash import sha256_crypt
 
 
 app = Flask(__name__)
+app.config[MySQL_HOST] = "localhost"
+
+
+
 @app.route("/")
 def index():
     articles = [
