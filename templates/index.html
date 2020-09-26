@@ -1,4 +1,20 @@
 {% extends "layout.html" %}
+
+
 {% block body %}
-<h1>Ana Sayfa</h1>
+<div class="jumbotron text-center">
+    <h3>Bloguma Hosgeldiniz</h3>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+        Harum, sint. Velit magnam sapiente laborum quia, 
+        veritatis temporibus quasi ratione fugiat.</p>
+
+</div>
+<div>
+    <ul>
+    {% for article in articles  %}
+    <li>Article Id: {{article.id}} - Title: {{article.title}} - Content: {{article.content}} </li>
+    
+    {% endfor %}
+    </ul>
+</div>
 {% endblock body %}     
