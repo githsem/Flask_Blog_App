@@ -8,6 +8,10 @@ app = Flask(__name__)
 app.config["MySQL_HOST"] = "localhost"
 app.config["MySQL_USER"] = "root"
 app.config["MySQL_PASSWORD"] = ""
+app.config["MySQL_DB"] = "ybblog"
+app.config["MySQL_CURSORCLASS"] = "DictCursor"
+
+mysql = MySQL(app)
 
 @app.route("/")
 def index():
