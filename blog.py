@@ -7,7 +7,7 @@ from passlib.hash import sha256_crypt
 class RegisterForm(Form):
     name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
     username = StringField("Kullanici Adi", validators=[validators.length(min=5, max=35)])
-    name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
+    email = StringField("Email Adresi", validators=[validators.Email(message="Lutfen Gecerli Bir Email Adresi Giriniz...")])
 
 
 app = Flask(__name__)
