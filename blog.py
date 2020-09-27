@@ -6,8 +6,10 @@ from passlib.hash import sha256_crypt
 #Kullanici Kayit Formu
 class RegisterForm(Form):
     name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
+    name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
+    name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
 
-
+    
 app = Flask(__name__)
 app.config["MySQL_HOST"] = "localhost"
 app.config["MySQL_USER"] = "root"
