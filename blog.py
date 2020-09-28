@@ -51,9 +51,10 @@ def register():
         password = sha256_crypt.encrypt(form.password.data)
 
         cursor = mysql.connection.cursor()
+        
+        sorgu = "Insert into users(name,email,username,password) VALUES(%s,%s,%s,%s,%s)"
 
-        sorgu = "Insert into users(name,email,username,password) VALUES(%s,%s,%s,%s,%s"
-
+        cursor.execute(sorgu,(name,email,username,password))
 
         return redirect(url_for("index"))
     else:    
