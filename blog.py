@@ -8,7 +8,11 @@ class RegisterForm(Form):
     name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
     username = StringField("Kullanici Adi", validators=[validators.length(min=5, max=35)])
     email = StringField("Email Adresi", validators=[validators.Email(message="Lutfen Gecerli Bir Email Adresi Giriniz...")])
-
+    password = PasswordField("Parola : ", validators=[
+        validators.data_required(message="Lutfen Bir Parola Belirleyiniz..."),
+        validators.equal_to(fieldname = "confirm", message = "Parolaniz Uyusmuyor...")
+    ])
+    confirm = PasswordField("Parola Dogrula")
 
 app = Flask(__name__)
 app.config["MySQL_HOST"] = "localhost"
