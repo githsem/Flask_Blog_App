@@ -50,6 +50,10 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(form.password.data)
 
+        cursor = mysql.connection.cursor()
+
+        sorgu = "Insert into users"
+
 
         return redirect(url_for("index"))
     else:    
