@@ -44,7 +44,13 @@ def detail(id):
 @app.route("/register",methods = ["GET","POST"])
 def register():
     form = RegisterForm(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and form.validate:
+        name = form.name.data
+        username = form.username.data
+        email = form.email.data
+        password = sha256_crypt.encrypt(form.password.data)
+
+
         return redirect(url_for("index"))
     else:    
         return render_template("register.html",form = form)
