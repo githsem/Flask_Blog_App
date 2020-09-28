@@ -25,12 +25,7 @@ mysql = MySQL(app)
 
 @app.route("/")
 def index():
-    articles = [
-        {"id":1,"title":"Deneme1","content":"Deneme1 Icerik"},
-        {"id":2,"title":"Deneme2","content":"Deneme2 Icerik"},
-        {"id":3,"title":"Deneme2","content":"Deneme2 Icerik"}
-    ]
-    return render_template("index.html",articles = articles)
+    return render_template("index.html")
 
 @app.route("/about")
 def about():
@@ -58,7 +53,10 @@ def register():
         mysql.connection.commit()
         cursor.close()
 
+    
+
         return redirect(url_for("index"))
+
     else:    
         return render_template("register.html",form = form)
 
