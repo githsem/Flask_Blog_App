@@ -45,7 +45,7 @@ def detail(id):
 def register():
     form = RegisterForm(request.form)
     if request.method == "POST":
-        return redirect(url_for("index.html"))
+        return redirect(url_for("index"))
     else:    
         return render_template("register.html",form = form)
 
