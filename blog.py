@@ -52,7 +52,7 @@ def register():
 
         cursor = mysql.connection.cursor()
 
-        sorgu = "Insert into users"
+        sorgu = "Insert into users(name,email,username,password) VALUES(%s,%s,%s,%s,%s"
 
 
         return redirect(url_for("index"))
