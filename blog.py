@@ -55,6 +55,7 @@ def register():
         sorgu = "Insert into users(name,email,username,password) VALUES(%s,%s,%s,%s,%s)"
 
         cursor.execute(sorgu,(name,email,username,password))
+        mysql.connection.commit()
 
         return redirect(url_for("index"))
     else:    
