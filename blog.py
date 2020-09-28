@@ -44,7 +44,7 @@ def detail(id):
 @app.route("/register",methods = ["GET","POST"])
 def register():
     form = RegisterForm(request.form)
-    if request.method == "POST" and form.validate:
+    if request.method == "POST" and form.validate():
         name = form.name.data
         username = form.username.data
         email = form.email.data
