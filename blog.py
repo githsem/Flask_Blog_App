@@ -56,6 +56,7 @@ def register():
 
         cursor.execute(sorgu,(name,email,username,password))
         mysql.connection.commit()
+        cursor.close()
 
         return redirect(url_for("index"))
     else:    
