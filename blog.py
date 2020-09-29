@@ -53,7 +53,6 @@ def register():
         mysql.connection.commit()
         cursor.close()
 
-
         return redirect(url_for("index"))
 
     else:    
