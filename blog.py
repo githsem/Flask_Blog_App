@@ -45,8 +45,7 @@ def register():
         email = form.email.data
         password = sha256_crypt.encrypt(form.password.data)
 
-        cursor = mysql.connection.cursor()
-        
+        cursor = mysql.connection.cursor()     
         sorgu = "Insert INTO users(name,email,username,password) VALUES(%s,%s,%s,%s)"
 
         cursor.execute(sorgu,(name,email,username,password))
