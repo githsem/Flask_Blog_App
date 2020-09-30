@@ -11,8 +11,10 @@ Yazar : {{article.author}}
 Tarih : {{article.created_date}}
 <hr>
 {{article.content|safe}}
+
 {% else %}
 <div class="alert alert-warning">Boyle Bir Makale Bulunmuyor...</div>
+
 {% endif %}
 
 {% endblock body %}
