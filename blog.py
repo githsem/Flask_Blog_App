@@ -89,7 +89,6 @@ def login():
         cursor = mysql.connection.cursor()
 
         sorgu = "SELECT * FROM users WHERE username = %s"
-
         result = cursor.execute(sorgu,(username,))
 
         if result > 0:
