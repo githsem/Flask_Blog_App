@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+{% if article %}
+<h4>{{article.title}}</h4>
+
+{% else %}
+<div class="alert alert-warning">Boyle Bir Makale Bulunmuyor...</div>
+{% endif %}
+
+{% endblock body %}
