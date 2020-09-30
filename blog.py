@@ -72,7 +72,6 @@ def register():
 
         flash("Basariyla Kayit Oldunuz...","success")
         return redirect(url_for("login"))
-
     else:    
         return render_template("register.html",form = form)
 
