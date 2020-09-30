@@ -5,6 +5,9 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 
 
+#Kullanici Giris Decorator'i
+
+
 #Kullanici Kayit Formu
 class RegisterForm(Form):
     name = StringField("Isim Soyisim", validators=[validators.length(min=4, max=25)])
