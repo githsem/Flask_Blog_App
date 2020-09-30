@@ -69,6 +69,7 @@ def register():
         cursor.execute(sorgu,(name,email,username,password))
         mysql.connection.commit()
         cursor.close()
+        
         flash("Basariyla Kayit Oldunuz...","success")
 
         return redirect(url_for("login"))
