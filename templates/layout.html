@@ -10,8 +10,9 @@
 {% include "includes/navbar.html" %}
 <br><br><br>
 <div class = "container">
-    {% block body %}   
-    {% endblock body %}
+    {% include "includes/messages.html" %}
+        {% block body %}   
+        {% endblock body %}
 </div>
 
 
