@@ -13,6 +13,7 @@ def login_required(f):
             return f(*args, **kwargs)
         else:
             flash("Bu Sayfayi Goruntulemek Icin Lutfen Giris Yapiniz...","danger")    
+            return redirect(url_for("login"))
     return decorated_function
 
 #Kullanici Kayit Formu
