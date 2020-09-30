@@ -2,6 +2,19 @@ from flask import Flask, render_template, flash, redirect, url_for, session, log
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
+from functools import wraps
+
+
+#Kullanici Giris Decorator'i
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "logged_in" in session:
+            return f(*args, **kwargs)
+        else:
+            flash("Bu Sayfayi Goruntulemek Icin Lutfen Giris Yapiniz...","danger")    
+            return redirect(url_for("login"))
+    return decorated_function
 
 #Kullanici Kayit Formu
 class RegisterForm(Form):
@@ -36,9 +49,30 @@ def index():
 def about():
     return render_template("about.html")
 
+#Makale Sayfasi
+@app.route("/articles")
+def articles():
+    cursor = mysql.connection.cursor()
+    sorgu = "SELECT * FROM articles"
+    result = cursor.execute(sorgu)
+    if result > 0:
+        articles = cursor.fetchall()
+        return render_template("articles.html",articles = articles)
+    else:
+        return render_template("articles.html")    
+
 @app.route("/dashboard")
+@login_required
 def dashboard():
-    return render_template("dashboard.html")    
+    cursor = mysql.connection.cursor()
+    sorgu = "SELECT * FROM articles WHERE author = %s"
+    result = cursor.execute(sorgu,(session["username"],))
+    
+    if result > 0:
+        articles = cursor.fetchall()
+        return render_template("dashboard.html",articles = articles)
+    else:
+        return render_template("dashboard.html")    
 
 #Kayit Olma
 @app.route("/register",methods = ["GET","POST"])
@@ -52,16 +86,27 @@ def register():
 
         cursor = mysql.connection.cursor()     
         sorgu = "Insert INTO users(name,email,username,password) VALUES(%s,%s,%s,%s)"
-
         cursor.execute(sorgu,(name,email,username,password))
         mysql.connection.commit()
         cursor.close()
+
         flash("Basariyla Kayit Oldunuz...","success")
-
         return redirect(url_for("login"))
-
     else:    
         return render_template("register.html",form = form)
+
+#Detay Sayfasi
+@app.route("/article/<string:id>")
+def article(id):
+    cursor = mysql.connection.cursor()
+    sorgu = "SELECT * FROM articles WHERE id =%s"
+    result = cursor.execute(sorgu,(id,))
+
+    if result > 0:
+        article = cursor.fetchone()
+        return render_template("article.html", article = article)
+    else:
+        return render_template("article.html")    
 
 #Login Islemi
 @app.route("/login", methods = ["GET","POST"])
@@ -73,9 +118,7 @@ def login():
         password_entered = form.password.data
 
         cursor = mysql.connection.cursor()
-
         sorgu = "SELECT * FROM users WHERE username = %s"
-
         result = cursor.execute(sorgu,(username,))
 
         if result > 0:
@@ -96,7 +139,6 @@ def login():
             flash("Boyle Bir Kullanici Bulunmuyor...","danger")
             return redirect(url_for("login"))
 
-
     return render_template("login.html",form = form)
 
 #Logout Islemi
@@ -104,6 +146,32 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+#Makale Ekleme
+@app.route("/addarticle", methods = ["GET","POST"])
+def addarticle():
+    form = ArticleForm(request.form)
+
+    if request.method == "POST" and form.validate():
+        title = form.title.data
+        content = form.content.data
+
+        cursor = mysql.connection.cursor()
+        sorgu = "INSERT INTO articles(title, author, content) VALUES(%s,%s,%s)"
+        cursor.execute(sorgu,(title, session["username"],content))
+
+        mysql.connection.commit()
+        cursor.close()
+
+        flash("Makale Basariyla Eklendi...","success")
+        return redirect(url_for("dashboard"))
+
+    return render_template("addarticle.html", form = form)
+
+#Makale Form
+class ArticleForm(Form):
+    title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
+    content = TextAreaField("Makale Icerigi", validators=[validators.length(min = 10)])  
 
 if __name__ == "__main__":
     app.run(debug=True)
