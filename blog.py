@@ -87,7 +87,6 @@ def login():
         password_entered = form.password.data
 
         cursor = mysql.connection.cursor()
-
         sorgu = "SELECT * FROM users WHERE username = %s"
         result = cursor.execute(sorgu,(username,))
 
