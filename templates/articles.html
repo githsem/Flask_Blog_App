@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+<h3>Makaleler</h3>
+<hr>
+{% if articles %}
+
+<ul class="list-group">
+  {% for article in articles  %}
+    <li class="list-group-item">{{article.title}}</li>
+  
+  {% endfor %}
+</ul>
+
+
+{% else %}
+<div class = "aler alert-danger">Bu Blokta Henuz Makale Bulunmuyor...</div>
+{% endif %}
+
+{% endblock body %}
