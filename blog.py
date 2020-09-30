@@ -96,7 +96,7 @@ def register():
         return render_template("register.html",form = form)
 
 #Detay Sayfasi
-@app.route("/article/<string :id>")
+@app.route("/article/<string:id>")
 def article(id):
     cursor = mysql.connection.cursor()
     sorgu = "SELECT * FROM articles WHERE id =%s"
