@@ -12,7 +12,7 @@ def login_required(f):
         if "logged_in" in session:
             return f(*args, **kwargs)
         else:
-            flash("Bu Sayfayi Goruntulemek Icin Lutfen Giris Yapiniz...")    
+            flash("Bu Sayfayi Goruntulemek Icin Lutfen Giris Yapiniz...","danger")    
     return decorated_function
 
 #Kullanici Kayit Formu
