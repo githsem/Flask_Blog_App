@@ -66,7 +66,6 @@ def register():
 
         cursor = mysql.connection.cursor()     
         sorgu = "Insert INTO users(name,email,username,password) VALUES(%s,%s,%s,%s)"
-
         cursor.execute(sorgu,(name,email,username,password))
         mysql.connection.commit()
         cursor.close()
