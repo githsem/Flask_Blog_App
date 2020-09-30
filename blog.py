@@ -14,7 +14,12 @@ class RegisterForm(Form):
     ])
     confirm = PasswordField("Parola Dogrula")
 
+class LoginForm(Form):
+    username = StringField("Kullanici Adi")    
+    password = PasswordField("Parola")
+
 app = Flask(__name__)
+app.secret_key = "ybblog"
 app.config["MYSQL_HOST"] = "localhost"
 app.config["MYSQL_USER"] = "root"
 app.config["MYSQL_PASSWORD"] = ""
@@ -31,9 +36,9 @@ def index():
 def about():
     return render_template("about.html")
 
-@app.route("/article/<string:id>")
-def detail(id):
-    return "Article Id: " + id
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")    
 
 #Kayit Olma
 @app.route("/register",methods = ["GET","POST"])
@@ -51,12 +56,54 @@ def register():
         cursor.execute(sorgu,(name,email,username,password))
         mysql.connection.commit()
         cursor.close()
+        flash("Basariyla Kayit Oldunuz...","success")
 
-        return redirect(url_for("index"))
+        return redirect(url_for("login"))
 
     else:    
         return render_template("register.html",form = form)
 
+#Login Islemi
+@app.route("/login", methods = ["GET","POST"])
+def login():
+    form = LoginForm(request.form)
+
+    if request.method == "POST":
+        username = form.username.data
+        password_entered = form.password.data
+
+        cursor = mysql.connection.cursor()
+
+        sorgu = "SELECT * FROM users WHERE username = %s"
+
+        result = cursor.execute(sorgu,(username,))
+
+        if result > 0:
+            data = cursor.fetchone()
+            real_password = data["password"]
+            if sha256_crypt.verify(password_entered,real_password):
+                flash("Basariyla Giris Yaptiniz...","success")
+
+                session["logged_in"] = True
+                session["username"] = username
+
+                return redirect(url_for("index"))
+            else:
+                flash("Parolanizi Yanlis Girdiniz...","danger")
+                return redirect(url_for("login"))    
+
+        else:
+            flash("Boyle Bir Kullanici Bulunmuyor...","danger")
+            return redirect(url_for("login"))
+
+
+    return render_template("login.html",form = form)
+
+#Logout Islemi
+@app.route("/logout")    
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
 
 if __name__ == "__main__":
     app.run(debug=True)
