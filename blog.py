@@ -183,6 +183,7 @@ def delete(id):
         cursor.execute(sorgu2,(id,))
         mysql.connection.commit()
 
+        return redirect(url_for("dashboard"))
 #Makale Form
 class ArticleForm(Form):
     title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
