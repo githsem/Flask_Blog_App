@@ -203,6 +203,7 @@ def update(id):
             form = ArticleForm()
 
             form.title.data = article["title"]
+            form.content.data = article["content"]
     else:
         pass
 
