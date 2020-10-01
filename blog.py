@@ -192,7 +192,7 @@ def delete(id):
 def update(id):
     if request.method == "GET":
         cursor = mysql.connection.cursor()
-        sorgu = "SELECT * FROM articles WHERE and id = %s author = %s "
+        sorgu = "SELECT * FROM articles WHERE and id = %s and author = %s"
         result = cursor.execute(sorgu,(id,session["username"]))
 
         if result == 0:
