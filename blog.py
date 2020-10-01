@@ -191,7 +191,9 @@ def delete(id):
 @login_required
 def update(id):
     if request.method == "GET":
-        pass
+        cursor = mysql.connection.cursor()
+        sorgu = "SELECT * FROM articles WHERE and id = %s author = %s "
+        result = cursor.execute(sorgu,(id,session["username"]))
     else:
         pass
 
