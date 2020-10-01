@@ -199,7 +199,10 @@ def update(id):
             flash("Boyle Bir Makale Yok veya Bu Isleme  Yetkiniz Yok","danger")    
             return redirect(url_for("index"))
         else:
-            pass
+            article = cursor.fetchone()
+            form = ArticleForm()
+
+            form.title.data = article["title"]
     else:
         pass
 
