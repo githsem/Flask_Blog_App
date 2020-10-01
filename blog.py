@@ -180,6 +180,7 @@ def delete(id):
         sorgu2 = "DELETE FROM articles WHERE id = %s"
     else:
         return render_template("delete.html")
+        cursor.execute(sorgu2,(id,))
     
 
 #Makale Form
