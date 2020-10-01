@@ -194,6 +194,11 @@ def update(id):
         cursor = mysql.connection.cursor()
         sorgu = "SELECT * FROM articles WHERE and id = %s author = %s "
         result = cursor.execute(sorgu,(id,session["username"]))
+
+        if result == 0:
+            pass
+        else:
+            pass
     else:
         pass
 
