@@ -181,7 +181,7 @@ def delete(id):
     else:
         return render_template("delete.html")
         cursor.execute(sorgu2,(id,))
-    
+        mysql.connection.commit()
 
 #Makale Form
 class ArticleForm(Form):
