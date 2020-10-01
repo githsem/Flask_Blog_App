@@ -172,6 +172,7 @@ def addarticle():
 @app.route("/delete/<string:id>")   
 @login_required 
 def delete(id):
+    cursor = mysql.connection.cursor()
     
 
 #Makale Form
