@@ -196,7 +196,8 @@ def update(id):
         result = cursor.execute(sorgu,(id,session["username"]))
 
         if result == 0:
-            pass
+            flash("Boyle Bir Makale Yok veya Bu Isleme  Yetkiniz Yok","danger")    
+            return redirect(url_for("index"))
         else:
             pass
     else:
