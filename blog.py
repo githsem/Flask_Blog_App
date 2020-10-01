@@ -192,6 +192,8 @@ def delete(id):
 def update(id):
     if request.method == "GET":
         pass
+    else:
+        pass
 
 
 #Makale Form
