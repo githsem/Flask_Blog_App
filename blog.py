@@ -188,6 +188,10 @@ def delete(id):
 
 #Makale Guncelleme
 @app.route("/edit/<string:id>", methods =["GET","POST"])
+@login_required
+def update(id):
+    if request.method == "GET":
+        pass
 
 
 #Makale Form
