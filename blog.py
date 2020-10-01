@@ -169,7 +169,7 @@ def addarticle():
     return render_template("addarticle.html", form = form)
 
 #Makale Silme
-    
+@app.route("delete/<String:id>")    
 
 #Makale Form
 class ArticleForm(Form):
