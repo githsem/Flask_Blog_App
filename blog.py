@@ -177,7 +177,7 @@ def delete(id):
     result = cursor.execute()
 
     if result > 0:
-        pass
+        sorgu = "DELETE FROM articles WHERE id = %s"
     else:
         return render_template("delete.html")
     
