@@ -186,6 +186,10 @@ def delete(id):
         flash("Boyle Bir Makale Yok veya Bu Isleme  Yetkiniz Yok","danger")    
         return redirect(url_for("index"))
 
+#Makale Guncelleme
+@app.route("/edit/<string:id>")
+
+
 #Makale Form
 class ArticleForm(Form):
     title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
