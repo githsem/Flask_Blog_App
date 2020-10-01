@@ -168,6 +168,9 @@ def addarticle():
 
     return render_template("addarticle.html", form = form)
 
+#Makale Silme
+    
+
 #Makale Form
 class ArticleForm(Form):
     title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
