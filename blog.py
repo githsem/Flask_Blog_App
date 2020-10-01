@@ -204,6 +204,8 @@ def update(id):
 
             form.title.data = article["title"]
             form.content.data = article["content"]
+
+            return render_template("update.html",form=form)
     else:
         pass
 
