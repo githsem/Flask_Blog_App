@@ -178,12 +178,14 @@ def delete(id):
 
     if result > 0:
         sorgu2 = "DELETE FROM articles WHERE id = %s"
-    else:
-        return render_template("delete.html")
         cursor.execute(sorgu2,(id,))
         mysql.connection.commit()
 
         return redirect(url_for("dashboard"))
+    else:
+        flash("Boyle Bir Makale Yok veya Bu Isleme  Yetkiniz Yok","danger")    
+        return redirect(url_for("index"))
+
 #Makale Form
 class ArticleForm(Form):
     title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
