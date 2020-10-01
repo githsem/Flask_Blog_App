@@ -174,10 +174,10 @@ def addarticle():
 def delete(id):
     cursor = mysql.connection.cursor()
     sorgu = "SELECT * FROM articles WHERE author = %s and id = %s"
-    result = cursor.execute()
+    result = cursor.execute(sorgu,(session["username"],id))
 
     if result > 0:
-        sorgu = "DELETE FROM articles WHERE id = %s"
+        sorgu2 = "DELETE FROM articles WHERE id = %s"
     else:
         return render_template("delete.html")
     
