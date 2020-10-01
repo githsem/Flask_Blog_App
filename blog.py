@@ -187,7 +187,7 @@ def delete(id):
         return redirect(url_for("index"))
 
 #Makale Guncelleme
-@app.route("/edit/<string:id>")
+@app.route("/edit/<string:id>", methods =["GET","POST"])
 
 
 #Makale Form
