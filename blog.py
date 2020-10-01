@@ -173,6 +173,13 @@ def addarticle():
 @login_required 
 def delete(id):
     cursor = mysql.connection.cursor()
+    sorgu = "SELECT * FROM articles WHERE author = %s and id = %s"
+    result = cursor.execute()
+
+    if result > 0:
+        pass
+    else:
+        return render_template("delete.html")
     
 
 #Makale Form
