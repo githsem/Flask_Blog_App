@@ -192,7 +192,7 @@ def delete(id):
 def update(id):
     if request.method == "GET":
         cursor = mysql.connection.cursor()
-        sorgu = "SELECT * FROM articles WHERE and id = %s and author = %s"
+        sorgu = "SELECT * FROM articles WHERE id = %s and author = %s"
         result = cursor.execute(sorgu,(id,session["username"]))
 
         if result == 0:
@@ -207,13 +207,44 @@ def update(id):
 
             return render_template("update.html",form=form)
     else:
-        pass
+        #POST Request
+        form = ArticleForm(request.form)
 
+        newTitle = form.title.data
+        newContent = form.content.data
+
+        sorgu2 = "UPDATE articles SET title = %s,content = %s WHERE id = %s"
+        cursor = mysql.connection.cursor()
+        cursor.execute(sorgu2,(newTitle,newContent,id)) 
+        mysql.connection.commit()
+
+        flash("Makale Basariyla Guncellendi...","success")
+        
+        return redirect(url_for("dashboard"))
 
 #Makale Form
 class ArticleForm(Form):
     title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
     content = TextAreaField("Makale Icerigi", validators=[validators.length(min = 10)])  
+
+#Arama Url
+@app.route("/search", methods = ["GET","POST"])
+def search():
+    if request.method == "GET":
+        return redirect(url_for("index"))
+    else:
+        keyword = request.form.get("keyword")    
+        cursor = mysql.connection.cursor()
+        sorgu = "SELECT * FROM articles WHERE title like '%" + keyword + "%' "
+        result = cursor.execute(sorgu)
+
+        if result == 0:
+            flash("Aranan Kelimeye Uygun Makale Bulunamadi...","warning")
+            return redirect(url_for("articles"))
+
+        else:
+            articles = cursor.fetchall()
+            return render_template("/articles.html",articles = articles)    
 
 if __name__ == "__main__":
     app.run(debug=True)
