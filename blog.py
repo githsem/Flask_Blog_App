@@ -168,10 +168,83 @@ def addarticle():
 
     return render_template("addarticle.html", form = form)
 
+#Makale Silme
+@app.route("/delete/<string:id>")   
+@login_required 
+def delete(id):
+    cursor = mysql.connection.cursor()
+    sorgu = "SELECT * FROM articles WHERE author = %s and id = %s"
+    result = cursor.execute(sorgu,(session["username"],id))
+
+    if result > 0:
+        sorgu2 = "DELETE FROM articles WHERE id = %s"
+        cursor.execute(sorgu2,(id,))
+        mysql.connection.commit()
+
+        return redirect(url_for("dashboard"))
+    else:
+        flash("Boyle Bir Makale Yok veya Bu Isleme  Yetkiniz Yok","danger")    
+        return redirect(url_for("index"))
+
+#Makale Guncelleme
+@app.route("/edit/<string:id>", methods =["GET","POST"])
+@login_required
+def update(id):
+    if request.method == "GET":
+        cursor = mysql.connection.cursor()
+        sorgu = "SELECT * FROM articles WHERE id = %s and author = %s"
+        result = cursor.execute(sorgu,(id,session["username"]))
+
+        if result == 0:
+            flash("Boyle Bir Makale Yok veya Bu Isleme  Yetkiniz Yok","danger")    
+            return redirect(url_for("index"))
+        else:
+            article = cursor.fetchone()
+            form = ArticleForm()
+
+            form.title.data = article["title"]
+            form.content.data = article["content"]
+
+            return render_template("update.html",form=form)
+    else:
+        #POST Request
+        form = ArticleForm(request.form)
+
+        newTitle = form.title.data
+        newContent = form.content.data
+
+        sorgu2 = "UPDATE articles SET title = %s,content = %s WHERE id = %s"
+        cursor = mysql.connection.cursor()
+        cursor.execute(sorgu2,(newTitle,newContent,id)) 
+        mysql.connection.commit()
+
+        flash("Makale Basariyla Guncellendi...","success")
+        
+        return redirect(url_for("dashboard"))
+
 #Makale Form
 class ArticleForm(Form):
     title = StringField("Makale Basligi", validators=[validators.length(min = 5, max = 100)])  
     content = TextAreaField("Makale Icerigi", validators=[validators.length(min = 10)])  
+
+#Arama Url
+@app.route("/search", methods = ["GET","POST"])
+def search():
+    if request.method == "GET":
+        return redirect(url_for("index"))
+    else:
+        keyword = request.form.get("keyword")    
+        cursor = mysql.connection.cursor()
+        sorgu = "SELECT * FROM articles WHERE title like '%" + keyword + "%' "
+        result = cursor.execute(sorgu)
+
+        if result == 0:
+            flash("Aranan Kelimeye Uygun Makale Bulunamadi...","warning")
+            return redirect(url_for("articles"))
+
+        else:
+            articles = cursor.fetchall()
+            return render_template("/articles.html",articles = articles)    
 
 if __name__ == "__main__":
     app.run(debug=True)
